@@ -15,16 +15,25 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "select1"
+					"name": "Select"
 				}
 			],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          category as string,",
+				"          description as string,",
+				"          id as short,",
+				"          image as string,",
+				"          price as double,",
+				"          rating as (count as short, rate as double),",
+				"          title as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> dfTransformProducts",
 				"dfTransformProducts select(skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1"
+				"     skipDuplicateMapOutputs: true) ~> Select"
 			]
 		}
 	}
