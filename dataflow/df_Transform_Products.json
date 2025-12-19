@@ -12,13 +12,21 @@
 					"name": "dfTransformProducts"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_DataLake_Raw_Products",
+						"type": "DatasetReference"
+					},
+					"name": "sink"
+				}
+			],
 			"transformations": [
 				{
 					"name": "Select"
 				},
 				{
-					"name": "derivedColumn1"
+					"name": "derivedColumn"
 				}
 			],
 			"scriptLines": [
@@ -48,7 +56,14 @@
 				"     skipDuplicateMapOutputs: true) ~> Select",
 				"Select derive(product_id = toInteger(product_id),",
 				"          price = toDecimal(price),",
-				"          {data_ingestão} = currentDate()) ~> derivedColumn1"
+				"          {data_ingestão} = currentDate()) ~> derivedColumn",
+				"derivedColumn sink(allowSchemaDrift: true,",
+				"     validateSchema: true,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink"
 			]
 		}
 	}
