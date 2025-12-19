@@ -16,6 +16,9 @@
 			"transformations": [
 				{
 					"name": "Select"
+				},
+				{
+					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
@@ -42,7 +45,10 @@
 				"          title",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> Select"
+				"     skipDuplicateMapOutputs: true) ~> Select",
+				"Select derive(product_id = toInteger(product_id),",
+				"          price = toDecimal(price),",
+				"          {data_ingestão} = currentDate()) ~> derivedColumn1"
 			]
 		}
 	}
