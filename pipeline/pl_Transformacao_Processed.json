@@ -20,10 +20,6 @@
 						"type": "DataFlowReference"
 					},
 					"staging": {
-						"linkedService": {
-							"referenceName": "ls_AzureDataLakeStorage",
-							"type": "LinkedServiceReference"
-						},
 						"folderPath": "processed/products"
 					},
 					"compute": {
