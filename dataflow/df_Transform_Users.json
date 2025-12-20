@@ -13,12 +13,39 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "select1"
+				}
+			],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          {__v} as boolean,",
+				"          address as (city as string, geolocation as (lat as double, long as double), number as short, street as string, zipcode as string),",
+				"          email as string,",
+				"          id as short,",
+				"          name as (firstname as string, lastname as string),",
+				"          password as string,",
+				"          phone as string,",
+				"          username as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     limit: 100,",
 				"     ignoreNoFilesFound: false,",
-				"     documentForm: 'documentPerLine') ~> dfTransformUsers"
+				"     documentForm: 'documentPerLine') ~> dfTransformUsers",
+				"dfTransformUsers select(mapColumn(",
+				"          {__v},",
+				"          id,",
+				"          username,",
+				"          email,",
+				"          password,",
+				"          name,",
+				"          address,",
+				"          phone",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1"
 			]
 		}
 	}
